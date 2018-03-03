@@ -318,7 +318,9 @@ namespace Toastify
 
         private static IntPtr GetSpotify()
         {
-            var windowClassName = "SpotifyMainWindow";
+            // Since version "1.0.75.483" the class of the main windows has been changed .
+            // var windowClassName = "SpotifyMainWindow";
+            var windowClassName = "Chrome_WidgetWin_0";  // "SpotifyMainWindow";
 
             return Win32.FindWindow(windowClassName, null);
         }
