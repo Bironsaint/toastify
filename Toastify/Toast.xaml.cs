@@ -44,7 +44,9 @@ namespace Toastify
 
         internal List<Toastify.Plugin.PluginBase> Plugins { get; set; }
 
-        internal static Toast Current { get; private set; }
+		private List<SpotifyAction> spotifyIndependentActions = new List<SpotifyAction>() { SpotifyAction.SettingsSaved };
+
+		internal static Toast Current { get; private set; }
 
         /// <summary>
         /// To the best of our knowledge this is our current playing song
@@ -94,6 +96,10 @@ namespace Toastify
         {
             //Load settings from XML
             LoadSettings();
+
+			// Assign Spotify independent actions
+			if (SettingsXml.Current.VolumeControlsAlwaysAvailable)
+				spotifyIndependentActions.AddRange(new SpotifyAction[] { SpotifyAction.Mute, SpotifyAction.VolumeUp, SpotifyAction.VolumeDown });
 
             string version = VersionChecker.Version;
 
@@ -637,7 +643,9 @@ namespace Toastify
             const string STOPPED_TEXT = "Stopped";
             const string SETTINGS_TEXT = "Settings saved";
 
-            if (!Spotify.IsRunning() && action != SpotifyAction.SettingsSaved)
+
+
+            if (!Spotify.IsRunning() && !spotifyIndependentActions.Contains(action))
             {
                 toastIcon = DEFAULT_ICON;
                 Title1.Text = "Spotify not available!";
@@ -647,6 +655,9 @@ namespace Toastify
             }
 
             Song currentTrack = trackBeforeAction;
+
+			if (currentTrack == null)
+				currentTrack = new Song("Unknown", "Spotify not available");
 
             string prevTitle1 = Title1.Text;
             string prevTitle2 = Title2.Text;

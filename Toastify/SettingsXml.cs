@@ -49,8 +49,9 @@ namespace Toastify
         private const string SETTINGS_FILE   =  "Toastify.xml";
 
         private bool _CloseSpotifyWithToastify;
+		private bool _VolumeControlsAlwaysAvailable;
         private bool _MinimizeSpotifyOnStartup;
-        private bool _GlobalHotKeys;
+		private bool _GlobalHotKeys;
         private bool _DisableToast;
         private bool _OnlyShowToastOnHotkey;
         private bool? _AlwaysStartSpotify;
@@ -177,7 +178,20 @@ namespace Toastify
             }
         }
 
-        public bool GlobalHotKeys
+		public bool VolumeControlsAlwaysAvailable
+		{
+			get { return _VolumeControlsAlwaysAvailable; }
+			set
+			{
+				if (_VolumeControlsAlwaysAvailable != value)
+				{
+					_VolumeControlsAlwaysAvailable = value;
+					NotifyPropertyChanged("VolumeControlsAlwaysAvailable");
+				}
+			}
+		}
+
+		public bool GlobalHotKeys
         {
             get { return _GlobalHotKeys; }
             set
