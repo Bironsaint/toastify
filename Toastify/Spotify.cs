@@ -322,7 +322,7 @@ namespace Toastify
             // var windowClassName = "SpotifyMainWindow";
             var windowClassName = "Chrome_WidgetWin_0";  // "SpotifyMainWindow";
 
-            return Win32.FindWindow(windowClassName, null);
+			return Win32.FindWindow(windowClassName, "Spotify"); // We need to filter for only windows with the name "spotify"
         }
 
         public static bool IsRunning()
